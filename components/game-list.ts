@@ -1,7 +1,13 @@
 import { format } from 'date-fns';
 import type { Game } from '../types';
+import { DISCORD_MAX_COMPONENTS_LENGTH } from '../constants';
 
 export function createGameList(games: Game[]) {
+  const COMPONENTS_PER_GAME = 5;
+  const maxGames = Math.floor(
+    DISCORD_MAX_COMPONENTS_LENGTH / COMPONENTS_PER_GAME
+  );
+
   const components = games.map((game) => ({
     type: 17,
     components: [
@@ -13,7 +19,13 @@ export function createGameList(games: Game[]) {
           },
         ],
       },
-      { type: 10, content: `# ${game.title}` },
+      {
+        type: 10,
+        content: `# ${game.title}\n-# Free until ${format(
+          game.endDate,
+          'MMM Q'
+        )}`,
+      },
       {
         type: 1,
         components: [
@@ -25,15 +37,11 @@ export function createGameList(games: Game[]) {
           },
         ],
       },
-      {
-        type: 10,
-        content: `-# Free until ${format(game.endDate, 'MMM Q')}`,
-      },
     ],
   }));
 
   return {
     flags: 32768,
-    components,
+    components: components.slice(0, maxGames),
   };
 }

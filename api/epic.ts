@@ -51,7 +51,7 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
 
     const endDate = promotion?.endDate;
     const imageUrl = keyImages.find(
-      ({ type }) => type === 'OfferImageTall'
+      ({ type }) => type === 'OfferImageWide'
     )?.url;
     const storeUrl = `${EPIC_STORE_BASE_URL}${urlSlug}`;
 
