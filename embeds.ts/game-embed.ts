@@ -1,7 +1,6 @@
 // at the top of your file
 import { type Embed } from 'discord.js';
 import type { Game } from '../types';
-import { format } from 'date-fns';
 
 export default function createGameEmbeds(games: Game[]) {
   return games.map((game) => createGameEmbed(game));
@@ -16,7 +15,9 @@ function createGameEmbed({
   const gameEmbed: Partial<Embed> = {
     color: 0xffffff,
     title,
-    description: `**Free** until ${format(endDate, 'MMM Q')}`,
+    description: `**Free!** Offer ends <t:${Math.floor(
+      endDate.getTime() / 1000
+    )}:R>`,
     thumbnail: {
       url: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Epic_Games_Store_logo_2023_vertical_white.png',
     },

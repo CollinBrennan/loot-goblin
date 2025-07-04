@@ -9,7 +9,7 @@ type EpicGame = {
   promotions: {
     promotionalOffers: [
       {
-        promotionalOffers: [{ endDate: Date }];
+        promotionalOffers: [{ endDate: string }];
       }
     ];
   };
@@ -48,17 +48,18 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
 
   for (let game of epicGames) {
     const { title, promotions, keyImages, catalogNs } = game;
-    const promotion =
-      promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0];
 
-    const endDate = promotion?.endDate;
+    const endDateString =
+      promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0].endDate;
     const imageUrl = keyImages.find(
       ({ type }) => type === 'OfferImageWide'
     )?.url;
     const pageSlug = catalogNs.mappings?.[0].pageSlug;
-    const storeUrl = `${EPIC_STORE_BASE_URL}${pageSlug}`;
 
-    if (!endDate || !imageUrl || !pageSlug) continue;
+    if (!endDateString || !imageUrl || !pageSlug) continue;
+
+    const endDate = new Date(endDateString);
+    const storeUrl = `${EPIC_STORE_BASE_URL}${pageSlug}`;
 
     freeGames.push({ title, endDate, imageUrl, storeUrl });
   }
