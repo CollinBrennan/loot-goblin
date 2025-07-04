@@ -1,34 +1,26 @@
-// at the top of your file
-import { type Embed } from 'discord.js';
-import type { Game } from '../types';
+import type { Embed } from 'discord.js';
+import type { Game, Service } from '../types';
 
-export default function createGameEmbeds(games: Game[]) {
-  return games.map((game) => createGameEmbed(game));
+export default function createGameEmbeds(games: Game[], service: Service) {
+  return games.map((game) => createGameEmbed(game, service));
 }
 
-function createGameEmbed({
-  title,
-  endDate,
-  imageUrl,
-  storeUrl,
-}: Game): Partial<Embed> {
+function createGameEmbed(game: Game, service: Service): Partial<Embed> {
+  const timestamp = Math.floor(game.endDate.getTime() / 1000);
+
   const gameEmbed: Partial<Embed> = {
     color: 0xffffff,
-    title,
-    description: `**Free!** Offer ends <t:${Math.floor(
-      endDate.getTime() / 1000
-    )}:R>`,
-    thumbnail: {
-      url: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Epic_Games_Store_logo_2023_vertical_white.png',
-    },
+    title: game.title,
+    description: `**Free!** Offer ends <t:${timestamp}:R>`,
+    thumbnail: { url: service.thumbnail },
     fields: [
       {
         name: '\u200b',
-        value: `[**Claim ↗**](${storeUrl})`,
+        value: `[**Claim on ${service.name} ↗**](${game.storeUrl})`,
         inline: true,
       },
     ],
-    image: { url: imageUrl },
+    image: { url: game.imageUrl },
   };
 
   return gameEmbed;
