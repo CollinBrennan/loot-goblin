@@ -20,7 +20,7 @@ type EpicGame = {
     }
   ];
   catalogNs: {
-    mappings: [{ pageSlug: string }];
+    mappings?: [{ pageSlug: string }];
   };
 };
 
