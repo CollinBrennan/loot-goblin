@@ -1,5 +1,7 @@
 import { fetchFreeEpicGames } from '../api/epic';
+import { fetchFreePrimeGames } from '../api/prime';
 import { createGameList } from '../components/game-list';
+import { DISCORD_MAX_EMBED_LENGTH } from '../constants';
 import createGameEmbeds from '../embeds.ts/game-embed';
 
 export const handler = async () => {
@@ -15,7 +17,7 @@ export const handler = async () => {
 
   try {
     const games = await fetchFreeEpicGames();
-    const embeds = createGameEmbeds(games);
+    const embeds = createGameEmbeds(games).slice(0, DISCORD_MAX_EMBED_LENGTH);
 
     const response = await fetch(webhookUrl, {
       method: 'POST',

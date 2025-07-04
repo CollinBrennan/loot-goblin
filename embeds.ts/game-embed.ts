@@ -17,7 +17,9 @@ function createGameEmbed({
     color: 0xffffff,
     title,
     description: `**Free** until ${format(endDate, 'MMM Q')}`,
-    thumbnail: { url: imageUrl },
+    thumbnail: {
+      url: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Epic_Games_Store_logo_2023_vertical_white.png',
+    },
     fields: [
       {
         name: '\u200b',

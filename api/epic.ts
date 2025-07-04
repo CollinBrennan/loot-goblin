@@ -19,7 +19,9 @@ type EpicGame = {
       url: string;
     }
   ];
-  urlSlug: string;
+  catalogNs: {
+    mappings: [{ pageSlug: string }];
+  };
 };
 
 type EpicGamesApiResponse = {
@@ -45,7 +47,7 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
   const freeGames: Game[] = [];
 
   for (let game of epicGames) {
-    const { title, promotions, keyImages, urlSlug } = game;
+    const { title, promotions, keyImages, catalogNs } = game;
     const promotion =
       promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0];
 
@@ -53,9 +55,10 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
     const imageUrl = keyImages.find(
       ({ type }) => type === 'OfferImageWide'
     )?.url;
-    const storeUrl = `${EPIC_STORE_BASE_URL}${urlSlug}`;
+    const pageSlug = catalogNs.mappings?.[0].pageSlug;
+    const storeUrl = `${EPIC_STORE_BASE_URL}${pageSlug}`;
 
-    if (!endDate || !imageUrl) continue;
+    if (!endDate || !imageUrl || !pageSlug) continue;
 
     freeGames.push({ title, endDate, imageUrl, storeUrl });
   }
