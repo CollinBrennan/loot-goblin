@@ -2,7 +2,7 @@ import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import db from '.';
 import type { Offer } from './schema';
 
-export async function putOffer({
+export async function tryPutOffer({
   offerId,
   service,
   ttl,
