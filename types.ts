@@ -3,7 +3,7 @@ export type Game = {
   endDate: Date;
   imageUrl: string;
   storeUrl: string;
-  originalPrice?: number;
+  originalPrice?: string;
 };
 
 export type Service = {

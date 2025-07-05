@@ -7,20 +7,18 @@ const EPIC_STORE_BASE_URL = 'https://store.epicgames.com/p/';
 type EpicGame = {
   title: string;
   promotions: {
-    promotionalOffers: [
-      {
-        promotionalOffers: [{ endDate: string }];
-      }
-    ];
+    promotionalOffers: [{ promotionalOffers: [{ endDate: string }] }];
   };
-  keyImages: [
-    {
-      type: string;
-      url: string;
-    }
-  ];
+  keyImages: [{ type: string; url: string }];
   catalogNs: {
     mappings?: [{ pageSlug: string }];
+  };
+  price: {
+    totalPrice: {
+      fmtPrice: {
+        originalPrice: string;
+      };
+    };
   };
 };
 
@@ -60,8 +58,9 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
 
     const endDate = new Date(endDateString);
     const storeUrl = `${EPIC_STORE_BASE_URL}${pageSlug}`;
+    const originalPrice = game.price.totalPrice.fmtPrice.originalPrice;
 
-    freeGames.push({ title, endDate, imageUrl, storeUrl });
+    freeGames.push({ title, endDate, imageUrl, storeUrl, originalPrice });
   }
 
   return freeGames;

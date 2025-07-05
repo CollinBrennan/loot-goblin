@@ -6,12 +6,13 @@ export default function createGameEmbeds(games: Game[], service: Service) {
 }
 
 function createGameEmbed(game: Game, service: Service): Partial<Embed> {
+  const price = game.originalPrice ? `~~${game.originalPrice}~~` : '';
   const timestamp = Math.floor(game.endDate.getTime() / 1000);
 
   const gameEmbed: Partial<Embed> = {
     color: 0xffffff,
     title: game.title,
-    description: `**Free!** Offer ends <t:${timestamp}:R>`,
+    description: `${price} **Free!** Offer ends <t:${timestamp}:R>`,
     thumbnail: { url: service.thumbnail },
     fields: [
       {
