@@ -3,7 +3,7 @@ import type { Offer, Service } from '../types';
 import { epochInSeconds } from '../utils/date-time';
 
 export default function createOfferEmbeds(offers: Offer[], service: Service) {
-  return offers.map((game) => createOfferEmbed(game, service));
+  return offers.map((offer) => createOfferEmbed(offer, service));
 }
 
 function createOfferEmbed(offer: Offer, service: Service): Partial<Embed> {
