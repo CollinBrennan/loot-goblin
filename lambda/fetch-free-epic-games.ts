@@ -2,7 +2,7 @@ import { fetchFreeEpicGames } from '../api/epic';
 import { DISCORD_MAX_EMBED_LENGTH } from '../constants';
 import { putOffer } from '../db/offer';
 import createGameEmbeds from '../embeds/game-embed';
-import serviceMap from '../service-map';
+import { epic } from '../services';
 
 export const handler = async () => {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
@@ -10,14 +10,14 @@ export const handler = async () => {
   if (!webhookUrl) throw new Error('Discord webhook URL not defined');
 
   const games = await fetchFreeEpicGames();
-  const embeds = createGameEmbeds(games, serviceMap.epic).slice(
+  const embeds = createGameEmbeds(games, epic).slice(
     0,
     DISCORD_MAX_EMBED_LENGTH
   );
 
   games.forEach(({ offerId, endDate }) => {
     const ttl = Math.floor(endDate.getTime() / 1000);
-    putOffer({ offerId, service: serviceMap.epic.name, ttl });
+    putOffer({ offerId, service: epic.name, ttl });
   });
 
   await fetch(webhookUrl, {

@@ -17,7 +17,7 @@ function createGameEmbed(game: Game, service: Service): Partial<Embed> {
     fields: [
       {
         name: '\u200b',
-        value: `[**Claim on ${service.name} ↗**](${game.storeUrl})`,
+        value: `[**Claim on ${service.displayName} ↗**](${game.storeUrl})`,
         inline: true,
       },
     ],

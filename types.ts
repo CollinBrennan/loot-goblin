@@ -9,5 +9,6 @@ export type Game = {
 
 export type Service = {
   name: string;
+  displayName: string;
   thumbnail: string;
 };
