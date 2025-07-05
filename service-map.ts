@@ -7,7 +7,7 @@ const serviceMap = {
   prime: {
     name: 'Prime Gaming',
     thumbnail:
-      'https://upload.wikimedia.org/wikipedia/commons/d/de/Prime_gaming_logo.svg',
+      'https://img.icons8.com/?size=100&id=ERzMWfI6Af4a&format=png&color=000000',
   },
 };
 

@@ -60,7 +60,7 @@ function transformPrimeGames(primeGames: PrimeGame[]): Game[] {
 
     freeGames.push({
       title: gameTitle,
-      endDate: endTime,
+      endDate: new Date(endTime),
       imageUrl: imageURL,
       storeUrl: content.externalURL,
     });
