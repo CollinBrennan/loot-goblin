@@ -1,4 +1,5 @@
 export type Game = {
+  offerId: string;
   title: string;
   endDate: Date;
   imageUrl: string;

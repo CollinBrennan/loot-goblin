@@ -1,6 +1,7 @@
 import { fetchFreePrimeGames } from '../api/prime';
 import { DISCORD_MAX_EMBED_LENGTH } from '../constants';
-import createGameEmbeds from '../embeds.ts/game-embed';
+import { putOffer } from '../db/offer';
+import createGameEmbeds from '../embeds/game-embed';
 import serviceMap from '../service-map';
 
 export const handler = async () => {
@@ -13,6 +14,11 @@ export const handler = async () => {
     0,
     DISCORD_MAX_EMBED_LENGTH
   );
+
+  games.forEach(({ offerId, endDate }) => {
+    const ttl = Math.floor(endDate.getTime() / 1000);
+    putOffer({ offerId, service: serviceMap.prime.name, ttl });
+  });
 
   await fetch(webhookUrl, {
     method: 'POST',

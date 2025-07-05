@@ -3,6 +3,7 @@ import type { Game } from '../types';
 const PRIME_API_URL = 'https://gql.twitch.tv/gql';
 
 type PrimeGame = {
+  id: string;
   tags: string[];
   content: {
     externalURL: string;
@@ -54,14 +55,22 @@ function transformPrimeGames(primeGames: PrimeGame[]): Game[] {
   const freeGames: Game[] = [];
 
   for (let game of primeGames) {
-    const { tags, content, gameTitle, endTime, imageURL } = game;
+    const {
+      id: offerId,
+      tags,
+      content,
+      gameTitle: title,
+      endTime,
+      imageURL: imageUrl,
+    } = game;
 
     if (!tags.includes('FGWP')) continue;
 
     freeGames.push({
-      title: gameTitle,
+      offerId,
+      title,
       endDate: new Date(endTime),
-      imageUrl: imageURL,
+      imageUrl,
       storeUrl: content.externalURL,
     });
   }

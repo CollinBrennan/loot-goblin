@@ -1,10 +1,11 @@
 import type { Game } from '../types';
 
-const EPIC_FREE_GAMES_URL =
+const EPIC_API_URL =
   'https://store-site-backend-static-ipv4.ak.epicgames.com/freeGamesPromotions';
 const EPIC_STORE_BASE_URL = 'https://store.epicgames.com/p/';
 
 type EpicGame = {
+  id: string;
   title: string;
   promotions: {
     promotionalOffers: [{ promotionalOffers: [{ endDate: string }] }];
@@ -33,7 +34,7 @@ type EpicGamesApiResponse = {
 };
 
 export async function fetchFreeEpicGames() {
-  const response = await fetch(EPIC_FREE_GAMES_URL);
+  const response = await fetch(EPIC_API_URL);
   const data = (await response.json()) as EpicGamesApiResponse;
   const epicGames = data.data.Catalog.searchStore.elements;
 
@@ -45,7 +46,7 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
   const freeGames: Game[] = [];
 
   for (let game of epicGames) {
-    const { title, promotions, keyImages, catalogNs } = game;
+    const { id: offerId, title, promotions, keyImages, catalogNs } = game;
 
     const endDateString =
       promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0].endDate;
@@ -60,7 +61,14 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
     const storeUrl = `${EPIC_STORE_BASE_URL}${pageSlug}`;
     const originalPrice = game.price.totalPrice.fmtPrice.originalPrice;
 
-    freeGames.push({ title, endDate, imageUrl, storeUrl, originalPrice });
+    freeGames.push({
+      offerId,
+      title,
+      endDate,
+      imageUrl,
+      storeUrl,
+      originalPrice,
+    });
   }
 
   return freeGames;
