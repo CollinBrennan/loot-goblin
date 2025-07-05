@@ -38,8 +38,11 @@ export const handler = async () => {
     });
   }
 
-  return {
+  const logData = {
     gamesFetched: games.length,
     gamesPosted: gamesToPost.length,
   };
+
+  console.log(logData);
+  return logData;
 };
