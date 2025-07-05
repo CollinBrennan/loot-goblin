@@ -18,7 +18,7 @@ type PrimeGamesApiResponse = [
     data: {
       primeOffersWithEligibility: PrimeGame[];
     };
-  }
+  },
 ];
 
 export async function fetchFreePrimeGames() {

@@ -51,7 +51,7 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
     const endDateString =
       promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0].endDate;
     const imageUrl = keyImages.find(
-      ({ type }) => type === 'OfferImageWide'
+      ({ type }) => type === 'OfferImageWide',
     )?.url;
     const pageSlug = catalogNs.mappings?.[0].pageSlug;
 

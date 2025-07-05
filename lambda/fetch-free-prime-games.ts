@@ -12,7 +12,7 @@ export const handler = async () => {
   const games = await fetchFreePrimeGames();
   const embeds = createGameEmbeds(games, prime).slice(
     0,
-    DISCORD_MAX_EMBED_LENGTH
+    DISCORD_MAX_EMBED_LENGTH,
   );
 
   games.forEach(({ offerId, endDate }) => {

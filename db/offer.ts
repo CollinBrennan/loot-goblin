@@ -15,6 +15,7 @@ export async function putOffer({
         service: { S: service },
         ttl: { N: ttl.toString() },
       },
-    })
+      ConditionExpression: 'attribute_not_exists(offerId)',
+    }),
   );
 }

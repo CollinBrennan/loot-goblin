@@ -7,6 +7,7 @@
     "bundle": "bun scripts/bundle.ts"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
     "@types/archiver": "^6.0.3",
     "@types/bun": "latest",
     "archiver": "^7.0.1"
