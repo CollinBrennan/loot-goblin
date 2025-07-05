@@ -1,10 +1,10 @@
-import type { Game } from '../types';
+import type { Offer } from '../types';
 
 const EPIC_API_URL =
   'https://store-site-backend-static-ipv4.ak.epicgames.com/freeGamesPromotions';
 const EPIC_STORE_BASE_URL = 'https://store.epicgames.com/p/';
 
-type EpicGame = {
+type EpicOffer = {
   id: string;
   title: string;
   promotions: {
@@ -23,30 +23,30 @@ type EpicGame = {
   };
 };
 
-type EpicGamesApiResponse = {
+type EpicOffersApiResponse = {
   data: {
     Catalog: {
       searchStore: {
-        elements: EpicGame[];
+        elements: EpicOffer[];
       };
     };
   };
 };
 
-export async function fetchFreeEpicGames() {
+export async function fetchEpicOffers() {
   const response = await fetch(EPIC_API_URL);
-  const data = (await response.json()) as EpicGamesApiResponse;
-  const epicGames = data.data.Catalog.searchStore.elements;
+  const data = (await response.json()) as EpicOffersApiResponse;
+  const epicOffers = data.data.Catalog.searchStore.elements;
 
-  const freeGames = transformEpicGames(epicGames);
-  return freeGames;
+  const offers = transformEpicOffers(epicOffers);
+  return offers;
 }
 
-function transformEpicGames(epicGames: EpicGame[]): Game[] {
-  const freeGames: Game[] = [];
+function transformEpicOffers(epicOffers: EpicOffer[]): Offer[] {
+  const offers: Offer[] = [];
 
-  for (let game of epicGames) {
-    const { id: offerId, title, promotions, keyImages, catalogNs } = game;
+  for (let epicOffer of epicOffers) {
+    const { id, title, promotions, keyImages, catalogNs } = epicOffer;
 
     const endDateString =
       promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0].endDate;
@@ -59,10 +59,10 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
 
     const endDate = new Date(endDateString);
     const storeUrl = `${EPIC_STORE_BASE_URL}${pageSlug}`;
-    const originalPrice = game.price.totalPrice.fmtPrice.originalPrice;
+    const originalPrice = epicOffer.price.totalPrice.fmtPrice.originalPrice;
 
-    freeGames.push({
-      offerId,
+    offers.push({
+      id,
       title,
       endDate,
       imageUrl,
@@ -71,5 +71,5 @@ function transformEpicGames(epicGames: EpicGame[]): Game[] {
     });
   }
 
-  return freeGames;
+  return offers;
 }

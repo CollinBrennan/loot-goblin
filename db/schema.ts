@@ -1,5 +1,5 @@
-export type Offer = {
+export type InsertOffer = {
   offerId: string;
-  service: string;
+  serviceId: string;
   ttl: number;
 };

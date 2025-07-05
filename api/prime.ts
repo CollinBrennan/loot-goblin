@@ -1,8 +1,29 @@
-import type { Game } from '../types';
+import type { Offer } from '../types';
 
 const PRIME_API_URL = 'https://gql.twitch.tv/gql';
+const REQUEST_BODY_OPTIONS = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+    Accept: 'application/json',
+  },
+  body: JSON.stringify([
+    {
+      operationName: 'Prime_PrimeOfferList_PrimeOffers_Eligibility',
+      variables: {},
+      extensions: {
+        persistedQuery: {
+          version: 1,
+          sha256Hash:
+            '630945e9a3b4edbcadb1494b0c77b43301199ca0717ad35f712c2f81f7951690',
+        },
+      },
+    },
+  ]),
+};
 
-type PrimeGame = {
+type PrimeOffer = {
   id: string;
   tags: string[];
   content: {
@@ -13,61 +34,40 @@ type PrimeGame = {
   imageURL: string;
 };
 
-type PrimeGamesApiResponse = [
+type PrimeOffersApiResponse = [
   {
     data: {
-      primeOffersWithEligibility: PrimeGame[];
+      primeOffersWithEligibility: PrimeOffer[];
     };
   },
 ];
 
-export async function fetchFreePrimeGames() {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify([
-      {
-        operationName: 'Prime_PrimeOfferList_PrimeOffers_Eligibility',
-        variables: {},
-        extensions: {
-          persistedQuery: {
-            version: 1,
-            sha256Hash:
-              '630945e9a3b4edbcadb1494b0c77b43301199ca0717ad35f712c2f81f7951690',
-          },
-        },
-      },
-    ]),
-  };
-  const response = await fetch(PRIME_API_URL, options);
-  const data = (await response.json()) as PrimeGamesApiResponse;
-  const games = data[0].data.primeOffersWithEligibility;
+export async function fetchPrimeOffers() {
+  const response = await fetch(PRIME_API_URL, REQUEST_BODY_OPTIONS);
+  const data = (await response.json()) as PrimeOffersApiResponse;
+  const primeOffers = data[0].data.primeOffersWithEligibility;
 
-  const freeGames = transformPrimeGames(games);
-  return freeGames;
+  const offers = transformPrimeOffers(primeOffers);
+  return offers;
 }
 
-function transformPrimeGames(primeGames: PrimeGame[]): Game[] {
-  const freeGames: Game[] = [];
+function transformPrimeOffers(primeOffers: PrimeOffer[]): Offer[] {
+  const offers: Offer[] = [];
 
-  for (let game of primeGames) {
+  for (let primeOffer of primeOffers) {
     const {
-      id: offerId,
+      id,
       tags,
       content,
       gameTitle: title,
       endTime,
       imageURL: imageUrl,
-    } = game;
+    } = primeOffer;
 
     if (!tags.includes('FGWP')) continue;
 
-    freeGames.push({
-      offerId,
+    offers.push({
+      id,
       title,
       endDate: new Date(endTime),
       imageUrl,
@@ -75,5 +75,5 @@ function transformPrimeGames(primeGames: PrimeGame[]): Game[] {
     });
   }
 
-  return freeGames;
+  return offers;
 }

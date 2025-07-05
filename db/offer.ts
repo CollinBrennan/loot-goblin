@@ -1,18 +1,18 @@
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import db from '.';
-import type { Offer } from './schema';
+import type { InsertOffer } from './schema';
 
 export async function tryPutOffer({
   offerId,
-  service,
+  serviceId,
   ttl,
-}: Offer): Promise<void> {
+}: InsertOffer): Promise<void> {
   await db.send(
     new PutItemCommand({
       TableName: 'offer',
       Item: {
         offerId: { S: offerId },
-        service: { S: service },
+        serviceId: { S: serviceId },
         ttl: { N: ttl.toString() },
       },
       ConditionExpression: 'attribute_not_exists(offerId)',

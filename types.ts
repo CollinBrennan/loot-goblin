@@ -1,5 +1,5 @@
-export type Game = {
-  offerId: string;
+export type Offer = {
+  id: string;
   title: string;
   endDate: Date;
   imageUrl: string;
@@ -8,7 +8,7 @@ export type Game = {
 };
 
 export type Service = {
+  id: string;
   name: string;
-  displayName: string;
   thumbnail: string;
 };
