@@ -6,6 +6,7 @@ import {
   type APIInteraction,
   type APIInteractionResponse,
 } from 'discord.js';
+import { responses } from '../commands';
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -16,6 +17,7 @@ export const handler = async (
     throw new Error('Missing Discord public key');
   }
 
+  // API Gateway has lowercase headers
   const signature = event.headers['x-signature-ed25519'];
   const timestamp = event.headers['x-signature-timestamp'];
   const body = event.body;
@@ -33,20 +35,19 @@ export const handler = async (
   }
 
   const interaction = JSON.parse(body) as APIInteraction;
-
   console.log(interaction);
 
+  // Handle ping interaction when setting interaction url
   if (interaction.type === InteractionType.Ping) {
     return { type: InteractionResponseType.Pong };
   }
 
+  // Handle slash commands
   if (interaction.type === InteractionType.ApplicationCommand) {
-    if (interaction.data.name === 'ping') {
-      console.log('Ping fired!');
-      return {
-        type: InteractionResponseType.ChannelMessageWithSource,
-        data: { content: 'Hello!' },
-      };
-    }
+    const response = responses[interaction.data.name];
+
+    if (!response) console.error('Invalid slash command');
+
+    return response;
   }
 };
