@@ -5,6 +5,7 @@
       "name": "loot-goblin",
       "dependencies": {
         "@aws-sdk/client-dynamodb": "^3.840.0",
+        "@aws-sdk/lib-dynamodb": "^3.840.0",
         "aws-lambda": "^1.0.7",
         "date-fns": "^4.1.0",
         "discord-interactions": "^4.3.0",
@@ -54,6 +55,8 @@
 
     "@aws-sdk/endpoint-cache": ["@aws-sdk/endpoint-cache@3.804.0", "", { "dependencies": { "mnemonist": "0.38.3", "tslib": "^2.6.2" } }, "sha512-TQVDkA/lV6ua75ELZaichMzlp6x7tDa1bqdy/+0ZftmODPtKXuOOEcJxmdN7Ui/YRo1gkRz2D9txYy7IlNg1Og=="],
 
+    "@aws-sdk/lib-dynamodb": ["@aws-sdk/lib-dynamodb@3.840.0", "", { "dependencies": { "@aws-sdk/core": "3.840.0", "@aws-sdk/util-dynamodb": "3.840.0", "@smithy/core": "^3.6.0", "@smithy/smithy-client": "^4.4.5", "@smithy/types": "^4.3.1", "tslib": "^2.6.2" }, "peerDependencies": { "@aws-sdk/client-dynamodb": "^3.840.0" } }, "sha512-9YoIOAG9CUUe/zLs0QX3fpKnfoO8uWd4fSiqUTg04sJdeCUrQ6njzmgNnMhV95MwOJ3tdlSsFGznSMu/sGep+A=="],
+
     "@aws-sdk/middleware-endpoint-discovery": ["@aws-sdk/middleware-endpoint-discovery@3.840.0", "", { "dependencies": { "@aws-sdk/endpoint-cache": "3.804.0", "@aws-sdk/types": "3.840.0", "@smithy/node-config-provider": "^4.1.3", "@smithy/protocol-http": "^5.1.2", "@smithy/types": "^4.3.1", "tslib": "^2.6.2" } }, "sha512-IJDShY5NOg9luTE8h4o2Bm+gsPnHIU0tVWCjMz8vZMLevYjKdIsatcXiu3huTOjKSnelzC9fBHfU6KKsHmjjBQ=="],
 
     "@aws-sdk/middleware-host-header": ["@aws-sdk/middleware-host-header@3.840.0", "", { "dependencies": { "@aws-sdk/types": "3.840.0", "@smithy/protocol-http": "^5.1.2", "@smithy/types": "^4.3.1", "tslib": "^2.6.2" } }, "sha512-ub+hXJAbAje94+Ya6c6eL7sYujoE8D4Bumu1NUI8TXjUhVVn0HzVWQjpRLshdLsUp1AW7XyeJaxyajRaJQ8+Xg=="],
@@ -71,6 +74,8 @@
     "@aws-sdk/token-providers": ["@aws-sdk/token-providers@3.840.0", "", { "dependencies": { "@aws-sdk/core": "3.840.0", "@aws-sdk/nested-clients": "3.840.0", "@aws-sdk/types": "3.840.0", "@smithy/property-provider": "^4.0.4", "@smithy/shared-ini-file-loader": "^4.0.4", "@smithy/types": "^4.3.1", "tslib": "^2.6.2" } }, "sha512-6BuTOLTXvmgwjK7ve7aTg9JaWFdM5UoMolLVPMyh3wTv9Ufalh8oklxYHUBIxsKkBGO2WiHXytveuxH6tAgTYg=="],
 
     "@aws-sdk/types": ["@aws-sdk/types@3.840.0", "", { "dependencies": { "@smithy/types": "^4.3.1", "tslib": "^2.6.2" } }, "sha512-xliuHaUFZxEx1NSXeLLZ9Dyu6+EJVQKEoD+yM+zqUo3YDZ7medKJWY6fIOKiPX/N7XbLdBYwajb15Q7IL8KkeA=="],
+
+    "@aws-sdk/util-dynamodb": ["@aws-sdk/util-dynamodb@3.840.0", "", { "dependencies": { "tslib": "^2.6.2" }, "peerDependencies": { "@aws-sdk/client-dynamodb": "^3.840.0" } }, "sha512-DmTgUojCV4eCd2HDkFtNwocWoGz1Q/YTbdx4wFlUksrcLdFhI8CKRe6WVGZK0lxceIbtFONuseByMFo8hs/EMQ=="],
 
     "@aws-sdk/util-endpoints": ["@aws-sdk/util-endpoints@3.840.0", "", { "dependencies": { "@aws-sdk/types": "3.840.0", "@smithy/types": "^4.3.1", "@smithy/util-endpoints": "^3.0.6", "tslib": "^2.6.2" } }, "sha512-eqE9ROdg/Kk0rj3poutyRCFauPDXIf/WSvCqFiRDDVi6QOnCv/M0g2XW8/jSvkJlOyaXkNCptapIp6BeeFFGYw=="],
 

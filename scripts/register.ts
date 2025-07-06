@@ -1,4 +1,5 @@
 import { registeredCommands } from '../commands';
+import { DISCORD_API_URL } from '../constants';
 
 const { DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID } = process.env;
 
@@ -7,7 +8,7 @@ if (!DISCORD_BOT_TOKEN || !DISCORD_CLIENT_ID) {
   process.exit(1);
 }
 
-const url = `https://discord.com/api/v10/applications/${DISCORD_CLIENT_ID}/commands`;
+const url = `${DISCORD_API_URL}/applications/${DISCORD_CLIENT_ID}/commands`;
 const res = await fetch(url, {
   method: 'PUT',
   headers: {

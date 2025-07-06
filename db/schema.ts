@@ -3,3 +3,15 @@ export type InsertOffer = {
   serviceId: string;
   ttl: number;
 };
+
+export type InsertWebhook = {
+  webhookId: string;
+  serviceId: string;
+  url: string;
+};
+
+export type SelectWebhook = {
+  webhookId: string;
+  serviceId: string;
+  url: string;
+};

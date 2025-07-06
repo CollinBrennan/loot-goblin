@@ -1,5 +1,6 @@
 import { DISCORD_MAX_EMBED_LENGTH } from '../constants';
 import { tryPutOffer } from '../db/offer';
+import { getWebhooksByService } from '../db/webhook';
 import createOfferEmbeds from '../embeds/offer-embed';
 import type { Offer, Service } from '../types';
 import { epochInSeconds } from './date-time';
@@ -8,9 +9,6 @@ async function postOffersHandler(
   fetchOffers: () => Promise<Offer[]>,
   service: Service,
 ) {
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
-  if (!webhookUrl) throw new Error('Discord webhook URL not defined');
-
   const fetchedOffers = await fetchOffers();
   const offers = fetchedOffers.slice(0, DISCORD_MAX_EMBED_LENGTH);
   const offersToPost: Offer[] = [];
@@ -29,18 +27,24 @@ async function postOffersHandler(
     }
   }
 
-  if (offersToPost.length > 0) {
+  const webhooks = await getWebhooksByService(service.id);
+
+  if (offersToPost.length > 0 && webhooks.length > 0) {
     const embeds = createOfferEmbeds(offersToPost, service);
-    await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ embeds }),
-    });
+
+    for (const webhook of webhooks) {
+      await fetch(webhook.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ embeds }),
+      });
+    }
   }
 
   const logData = {
     offersFetched: fetchedOffers.length,
     offersPosted: offersToPost.length,
+    webhooksPosted: webhooks.length,
   };
 
   console.log(logData);
