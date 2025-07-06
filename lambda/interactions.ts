@@ -6,7 +6,7 @@ import {
   type APIInteraction,
   type APIInteractionResponse,
 } from 'discord.js';
-import { responses } from '../commands';
+import { commands } from '../commands';
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -44,10 +44,14 @@ export const handler = async (
 
   // Handle slash commands
   if (interaction.type === InteractionType.ApplicationCommand) {
-    const response = responses[interaction.data.name];
+    const command = commands[interaction.data.name];
 
-    if (!response) console.error('Invalid slash command');
+    if (!command) {
+      console.error('Invalid slash command');
+      return;
+    }
 
+    const response = command(interaction);
     return response;
   }
 };

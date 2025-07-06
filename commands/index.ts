@@ -1,28 +1,25 @@
 import {
-  InteractionResponseType,
   SlashCommandBuilder,
+  type APIInteraction,
   type APIInteractionResponse,
 } from 'discord.js';
+import { ping } from './ping';
+import { subscribe } from './subscribe';
 
-export const commands = [
+type Command = (interaction: APIInteraction) => Promise<APIInteractionResponse>;
+
+export const registeredCommands = [
   new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Replies with Pong!'),
   new SlashCommandBuilder()
-    .setName('another-command')
-    .setDescription('Some other command!'),
-  new SlashCommandBuilder()
-    .setName('invalid')
-    .setDescription('Testing invalid commands'),
+    .setName('subscribe')
+    .setDescription(
+      'Subscribes the current channel to Loot Goblin notifications.',
+    ),
 ];
 
-export const responses: Record<string, APIInteractionResponse> = {
-  ping: {
-    type: InteractionResponseType.ChannelMessageWithSource,
-    data: { content: 'Pong!' },
-  },
-  'another-command': {
-    type: InteractionResponseType.ChannelMessageWithSource,
-    data: { content: 'I am another command!' },
-  },
+export const commands: Record<string, Command> = {
+  ping,
+  subscribe,
 };

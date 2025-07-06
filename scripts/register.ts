@@ -1,4 +1,4 @@
-import { commands } from '../commands';
+import { registeredCommands } from '../commands';
 
 const { DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID } = process.env;
 
@@ -14,7 +14,7 @@ const res = await fetch(url, {
     Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
     'Content-Type': 'application/json',
   },
-  body: JSON.stringify(commands),
+  body: JSON.stringify(registeredCommands),
 });
 
 if (!res.ok) {
