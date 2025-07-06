@@ -7,13 +7,13 @@ export default function createOfferEmbeds(offers: Offer[], service: Service) {
 }
 
 function createOfferEmbed(offer: Offer, service: Service): Partial<Embed> {
-  const price = offer.originalPrice ? `~~${offer.originalPrice}~~` : '';
+  const price = offer.originalPrice ? `~~${offer.originalPrice}~~ ` : '';
   const timestamp = epochInSeconds(offer.endDate);
 
   const offerEmbed: Partial<Embed> = {
     color: 0xffffff,
     title: offer.title,
-    description: `${price} **Free!** Offer ends <t:${timestamp}:R>`,
+    description: `${price}**Free!** Offer ends <t:${timestamp}:R>`,
     thumbnail: { url: service.thumbnail },
     fields: [
       {

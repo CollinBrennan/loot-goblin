@@ -7,3 +7,4 @@ Currently supported services:
 - [x] Epic Games Store
 - [x] Prime Gaming
 - [ ] Steam
+- [ ] Xbox Game Pass
