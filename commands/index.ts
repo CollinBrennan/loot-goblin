@@ -3,6 +3,7 @@ import {
   type APIInteraction,
   type APIInteractionResponse,
 } from 'discord.js';
+import { epic, prime } from '../services';
 import { ping } from './ping';
 import { subscribe } from './subscribe';
 
@@ -16,6 +17,16 @@ export const registeredCommands = [
     .setName('subscribe')
     .setDescription(
       'Subscribes the current channel to Loot Goblin notifications.',
+    )
+    .addStringOption((option) =>
+      option
+        .setName('service')
+        .setDescription('The service to subscribe to (e.g. epic, prime)')
+        .setRequired(true)
+        .addChoices(
+          { name: epic.name, value: epic.id },
+          { name: prime.name, value: prime.id },
+        ),
     ),
 ];
 

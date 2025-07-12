@@ -22,7 +22,8 @@ async function postOffersHandler(
         ttl: epochInSeconds(offer.endDate),
       });
       offersToPost.push(offer);
-    } catch {
+    } catch (e) {
+      console.log(e);
       continue;
     }
   }
