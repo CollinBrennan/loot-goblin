@@ -7,15 +7,15 @@ const EPIC_STORE_BASE_URL = 'https://store.epicgames.com/p/';
 type EpicOffer = {
   id: string;
   title: string;
-  promotions: {
+  promotions?: {
     promotionalOffers: [{ promotionalOffers: [{ endDate: string }] }];
   };
   keyImages: [{ type: string; url: string }];
-  catalogNs: {
-    mappings?: [{ pageSlug: string }];
-  };
+  offerMappings?: [{ pageSlug: string }];
   price: {
     totalPrice: {
+      originalPrice: number;
+      discount: number;
       fmtPrice: {
         originalPrice: string;
       };
@@ -46,20 +46,24 @@ function transformEpicOffers(epicOffers: EpicOffer[]): Offer[] {
   const offers: Offer[] = [];
 
   for (let epicOffer of epicOffers) {
-    const { id, title, promotions, keyImages, catalogNs } = epicOffer;
+    const { id, title, promotions, keyImages, offerMappings, price } =
+      epicOffer;
+
+    // Skip if not free
+    if (price.totalPrice.originalPrice !== price.totalPrice.discount) continue;
 
     const endDateString =
       promotions?.promotionalOffers?.[0]?.promotionalOffers?.[0].endDate;
     const imageUrl = keyImages.find(
       ({ type }) => type === 'OfferImageWide',
     )?.url;
-    const pageSlug = catalogNs.mappings?.[0].pageSlug;
+    const pageSlug = offerMappings?.[0].pageSlug;
 
     if (!endDateString || !imageUrl || !pageSlug) continue;
 
     const endDate = new Date(endDateString);
     const storeUrl = `${EPIC_STORE_BASE_URL}${pageSlug}`;
-    const originalPrice = epicOffer.price.totalPrice.fmtPrice.originalPrice;
+    const originalPrice = price.totalPrice.fmtPrice.originalPrice;
 
     offers.push({
       id,
