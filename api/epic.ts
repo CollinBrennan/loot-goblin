@@ -11,6 +11,9 @@ type EpicOffer = {
     promotionalOffers: [{ promotionalOffers: [{ endDate: string }] }];
   };
   keyImages: [{ type: string; url: string }];
+  catalogNs: {
+    mappings?: [{ pageSlug: string }];
+  };
   offerMappings?: [{ pageSlug: string }];
   price: {
     totalPrice: {
@@ -46,8 +49,15 @@ function transformEpicOffers(epicOffers: EpicOffer[]): Offer[] {
   const offers: Offer[] = [];
 
   for (let epicOffer of epicOffers) {
-    const { id, title, promotions, keyImages, offerMappings, price } =
-      epicOffer;
+    const {
+      id,
+      title,
+      promotions,
+      keyImages,
+      catalogNs,
+      offerMappings,
+      price,
+    } = epicOffer;
 
     // Skip if not free
     if (price.totalPrice.originalPrice !== price.totalPrice.discount) continue;
@@ -57,7 +67,10 @@ function transformEpicOffers(epicOffers: EpicOffer[]): Offer[] {
     const imageUrl = keyImages.find(
       ({ type }) => type === 'OfferImageWide',
     )?.url;
-    const pageSlug = offerMappings?.[0].pageSlug;
+
+    // Fall back to regular page slug if offer page slug is not available
+    const pageSlug =
+      offerMappings?.[0]?.pageSlug ?? catalogNs?.mappings?.[0]?.pageSlug;
 
     if (!endDateString || !imageUrl || !pageSlug) continue;
 
